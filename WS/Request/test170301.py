@@ -70,7 +70,10 @@ endTime = time()
 
 print ("last: " + str(endTime - startTime))
 
+kv = {'k': 'v', 'x': 'y'}
+r = requests.request('GET', 'http://python123.io/ws', params=kv)
 
+print(r.url)
 # example url
 # - https://item.jd.com/2967929.html
 # requests.exceptions.SSLError: hostname '220.181.111.188' doesn't match either of '*.baidu.com', '*.baifubao.com', '*.bdstatic.com', '*.hao123.com', '*.nuomi.com', '*.bce.baidu.com', '*.eyun.baidu.com', '*.map.baidu.com', 'baidu.com', 'baifubao.com', 'www.baidu.cn', 'www.baidu.com.cn', 'click.hm.baidu.com', 'log.hm.baidu.com', 'cm.pos.baidu.com', 'wn.pos.baidu.com', 'update.pan.baidu.com', 'mct.y.nuomi.com'
