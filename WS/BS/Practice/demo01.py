@@ -18,15 +18,16 @@ def fillUnivList(ulist, html):
         if isinstance(tr, bs4.element.Tag):
             tds = tr('td')
             # print(te)
-            ulist.append([tds[0].string.encode('utf-8'), tds[1].string.encode('utf-8'), tds[2].string.encode('utf-8'), tds[3].string.encode('utf-8')])
+            ulist.append([tds[0].string.encode('utf-8').strip(), tds[1].string.encode('utf-8').strip(), tds[2].string.encode('utf-8').strip(), tds[3].string.encode('utf-8').strip()])
     pass
 
 def printUnivList(ulist, num):
-    print ("{:^10}\t{:^30}\t{:^20}\t{:^10}".format("排名", "学校", "地区", "分数"))
+    tplt = "{0:^10}\t{1:{3}^30}\t{2:^20}\t{3:^10}"
+    print ("{0:^10}\t{1:^30}\t{2:^20}\t{3:^10}".format("排名", "学校", "地区", "分数"))
     # print ("Suc" + str(num))
     for i in range(num):
         u = ulist[i]
-        print ("{:^10}\t{:^30}\t{:^20}\t{:^10}".format(u[0], u[1], u[2], u[3]))
+        print ("{0:^10}\t{1:^30}\t{2:^20}\t{3:^10}".format(u[0], u[1], u[2], u[3]))
 
 
 # invoke
