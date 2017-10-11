@@ -38,8 +38,6 @@ class ZhiHuSpider(object):
 
         # 下载验证码图片
         captcha = self.session.get(self.url_captcha, headers=self.headers).content
-        # captcha = urllib2.urlopen(self.url_captcha).read()
-
         captcha_path = cur_path + 'captcha/captcha.gif' # 验证码图片路径
         captcha_path_new = cur_path + 'captcha/captcha_new.gif' # 处理后的验证码图片路径
         with open(captcha_path, 'wb') as f:
@@ -55,7 +53,6 @@ class ZhiHuSpider(object):
         # soup = BeautifulSoup(html, 'html.parser')
 
         xsrf = soup.find('input', attrs={'name': '_xsrf'}).get('value')
-        # print xsrf
 
         # regex = re.compile(r'name="_xsrf" value="(.*)"')
         # xsrf2 = re.search(regex, html)
@@ -85,6 +82,7 @@ class ZhiHuSpider(object):
         else:
             print('您尚未登录')
             return False
+
     def get_index_topic(self):
         '''
         获取首页第一条话题记录
@@ -111,11 +109,33 @@ class ZhiHuSpider(object):
                 content = item.find('div', attrs={'class': 'ContentItem ArticleItem'}).find('span', attrs={'class': 'RichText CopyrightRichText-richText'}).get_text() # 内容
                 print('content: %s' % content)
 
+    def get_search(self):
+        keywords = raw_input('请输入问题关键字: ')
+        keywordList = keywords.split(' ')
+        url = 'https://www.zhihu.com/search?type=content&q=' + '+'.join(keywordList)
+        soup = BeautifulSoup(self.session.get(url, headers=self.headers).content, 'html.parser')
+
+        items = soup.find_all('li', attrs={'class': 'item clearfix'})
+        print('问题：')
+        for item in items:
+            title = item.find('div', attrs={'class': 'title'}).find('a').get_text()
+            print(title)
+        print('文章：')
+        items = soup.find_all('li', attrs={'class': 'item clearfix article-item'})
+        for item in items:
+            title = item.find('div', attrs={'class': 'title'}).find('a').get_text()
+            print(title)
+        print('专栏：')
+        items = soup.find_all('li', attrs={'class': 'item clearfix column-item'})
+        for item in items:
+            title = item.find('div', attrs={'class': 'title'}).find('a').get_text()
+            print(title)
+
 
 if  __name__ == '__main__':
     zhihu = ZhiHuSpider()
     if zhihu.isLogin():
-        zhihu.get_index_topic()
+        # zhihu.get_index_topic()
+        zhihu.get_search()
     else:
-        ret = zhihu.login('18806529366', 'qq111111')
-
+        ret = zhihu.login('', '')
